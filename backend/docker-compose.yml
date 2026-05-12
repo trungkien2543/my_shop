@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  mysql_db:
+    image: mysql:latest
+    container_name: myshop_db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-my_mysql_db}
+      MYSQL_USER: ${MYSQL_USER:-user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-password123}
+    ports:
+      - "${MYSQL_PORT:-3309}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: always
+volumes:
+  mysql_data:

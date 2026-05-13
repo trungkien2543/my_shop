@@ -1,6 +1,7 @@
 package com.applyjob.myshop.service.Impl;
 
 import com.applyjob.myshop.dto.request.ProductRequest;
+import com.applyjob.myshop.dto.response.ProductDetailResponse;
 import com.applyjob.myshop.dto.response.ProductResponse;
 import com.applyjob.myshop.entity.Product;
 import com.applyjob.myshop.exception.ResourceNotFoundException;
@@ -66,7 +67,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponse getById(String id) {
+    public ProductDetailResponse getById(String id) {
         // Chỉ tìm những sản phẩm có trạng thái là true
         Product product = productRepository
                 .findByIdAndActiveTrue(id)
@@ -76,7 +77,7 @@ public class ProductServiceImpl implements ProductService {
                         )
                 );
 
-        return productMapper.toResponse(product);
+        return productMapper.toDetailResponse(product);
     }
 
     @Override

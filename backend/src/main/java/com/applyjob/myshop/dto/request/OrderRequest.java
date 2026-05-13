@@ -6,13 +6,13 @@ import java.util.List;
 
 public record OrderRequest(
 
-        @NotBlank
+        @NotBlank(message = "Không để trống tên khách hàng")
         String customerName,
 
-        @NotBlank
+        @NotBlank(message = "Không để trống số điện thoại khách hàng")
         String customerPhone,
 
-        @NotBlank
+        @NotBlank(message = "Không để trống địa chỉ giao hàng")
         String customerAddress,
 
         List<OrderItemRequest> items

@@ -1,6 +1,7 @@
 package com.applyjob.myshop.service;
 
 import com.applyjob.myshop.dto.request.ProductRequest;
+import com.applyjob.myshop.dto.response.ProductDetailResponse;
 import com.applyjob.myshop.dto.response.ProductResponse;
 import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.Page;
@@ -14,7 +15,7 @@ public interface ProductService {
 
     ProductResponse delete(String id) throws BadRequestException;
 
-    ProductResponse getById(String id);
+    ProductDetailResponse getById(String id);
 
     Page<ProductResponse> getAll(Pageable pageable);
 }

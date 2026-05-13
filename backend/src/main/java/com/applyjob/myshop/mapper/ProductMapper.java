@@ -1,6 +1,7 @@
 package com.applyjob.myshop.mapper;
 
 import com.applyjob.myshop.dto.request.ProductRequest;
+import com.applyjob.myshop.dto.response.ProductDetailResponse;
 import com.applyjob.myshop.dto.response.ProductResponse;
 import com.applyjob.myshop.entity.Product;
 import org.mapstruct.Mapper;
@@ -11,6 +12,8 @@ public interface ProductMapper {
     Product toEntity(ProductRequest request);
 
     ProductResponse toResponse(Product product);
+
+    ProductDetailResponse toDetailResponse(Product product);
 
     void updateProduct(
             @MappingTarget Product product,

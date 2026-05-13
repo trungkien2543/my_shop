@@ -3,6 +3,7 @@ package com.applyjob.myshop.controller.api;
 import com.applyjob.myshop.common.Endpoint;
 import com.applyjob.myshop.dto.request.ProductRequest;
 import com.applyjob.myshop.dto.response.ApiResponse;
+import com.applyjob.myshop.dto.response.ProductDetailResponse;
 import com.applyjob.myshop.dto.response.ProductResponse;
 import com.applyjob.myshop.service.ProductService;
 import jakarta.validation.Valid;
@@ -28,7 +29,7 @@ public class ProductController extends BaseController{
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<ProductResponse>> getProductById(
+    public ResponseEntity<ApiResponse<ProductDetailResponse>> getProductById(
             @PathVariable String id
     ) {
         return createSuccessResponse(productService.getById(id));

@@ -2,13 +2,17 @@ package com.applyjob.myshop.dto.response;
 
 import java.math.BigDecimal;
 
-public record ProductResponse(
+public record ProductDetailResponse(
 
         String id,
 
         String name,
 
-        BigDecimal price
+        BigDecimal price,
+
+        Integer quantity,
+
+        String description
 
 ) {
 }

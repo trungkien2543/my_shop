@@ -1,5 +1,6 @@
 package com.applyjob.myshop.mapper;
 
+import com.applyjob.myshop.dto.request.OrderItemRequest;
 import com.applyjob.myshop.dto.response.OrderItemResponse;
 import com.applyjob.myshop.entity.OrderItem;
 import org.mapstruct.Mapper;
@@ -15,4 +16,6 @@ public interface OrderItemMapper {
             expression = "java(orderItem.getPrice().multiply(java.math.BigDecimal.valueOf(orderItem.getQuantity())))"
     )
     OrderItemResponse toResponse(OrderItem orderItem);
+
+    OrderItem toEntity(OrderItemRequest orderItemRequest);
 }

@@ -120,6 +120,14 @@ public class MyshopApplication {
 							.price(BigDecimal.valueOf(7000000))
 							.quantity(11)
 							.description("4K monitor")
+							.build(),
+
+					Product.builder()
+							.name("Chuot may tinh Logitech")
+							.price(BigDecimal.valueOf(700000))
+							.quantity(0)
+							.description("Super click")
+							.active(false)
 							.build()
 			);
 

@@ -7,6 +7,7 @@ import com.applyjob.myshop.dto.response.ProductResponse;
 import com.applyjob.myshop.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -26,10 +27,33 @@ public class ProductController extends BaseController{
         return createSuccessResponse(productService.getAll(pageable));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<ProductResponse>> getProductById(
+            @PathVariable String id
+    ) {
+        return createSuccessResponse(productService.getById(id));
+    }
+
     @PostMapping
     public ResponseEntity<ApiResponse<ProductResponse>> createProduct(
             @Valid @RequestBody ProductRequest productRequest
             ) {
         return createSuccessResponse(productService.create(productRequest));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<ProductResponse>> updateProduct(
+            @PathVariable String id,
+            @Valid @RequestBody ProductRequest productRequest
+    ) {
+        return createSuccessResponse(productService.update(id,productRequest));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<ProductResponse>> deleteProduct(
+            @PathVariable String id
+    ) throws BadRequestException {
+        return createSuccessResponse(productService.delete(id));
+    }
+
 }

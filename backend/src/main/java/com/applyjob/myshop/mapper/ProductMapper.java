@@ -4,10 +4,17 @@ import com.applyjob.myshop.dto.request.ProductRequest;
 import com.applyjob.myshop.dto.response.ProductResponse;
 import com.applyjob.myshop.entity.Product;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
     Product toEntity(ProductRequest request);
 
     ProductResponse toResponse(Product product);
+
+    void updateProduct(
+            @MappingTarget Product product,
+            ProductRequest request
+    );
+
 }

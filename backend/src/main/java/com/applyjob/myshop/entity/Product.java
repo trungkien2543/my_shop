@@ -2,6 +2,7 @@ package com.applyjob.myshop.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
 
@@ -29,4 +30,9 @@ public class Product {
 
     @Column(columnDefinition = "TEXT")
     private String description;
+
+
+    @Column(nullable = false)
+    @Builder.Default
+    private Boolean active = true;
 }

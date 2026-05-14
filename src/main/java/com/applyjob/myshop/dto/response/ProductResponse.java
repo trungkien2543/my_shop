@@ -8,7 +8,9 @@ public record ProductResponse(
 
         String name,
 
-        BigDecimal price
+        BigDecimal price,
+
+        Integer quantity
 
 ) {
 }

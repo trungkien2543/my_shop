@@ -25,7 +25,7 @@ public class ProductController extends BaseController{
     public ResponseEntity<ApiResponse<Page<ProductResponse>>> getAllProducts(
             Pageable pageable
     ) {
-        return createSuccessResponse(productService.getAll(pageable));
+        return createSuccessResponse(productService.getPageProduct(pageable));
     }
 
     @GetMapping("/{id}")

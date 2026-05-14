@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
@@ -87,7 +89,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductResponse> getAll(Pageable pageable) {
+    public Page<ProductResponse> getPageProduct(Pageable pageable) {
         // Chỉ tìm những sản phẩm có trạng thái là true
         Pageable finalPageable = pageable;
 
@@ -104,5 +106,10 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return productRepository.findByActiveTrue(finalPageable).map(productMapper::toResponse);
+    }
+
+    @Override
+    public List<ProductResponse> getAll() {
+        return productRepository.findByActiveTrue().stream().map(productMapper::toResponse).toList();
     }
 }

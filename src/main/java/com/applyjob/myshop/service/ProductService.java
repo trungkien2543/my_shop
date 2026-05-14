@@ -6,6 +6,8 @@ import com.applyjob.myshop.dto.response.ProductResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface ProductService {
 
     ProductResponse create(ProductRequest request);
@@ -16,5 +18,7 @@ public interface ProductService {
 
     ProductDetailResponse getById(String id);
 
-    Page<ProductResponse> getAll(Pageable pageable);
+    Page<ProductResponse> getPageProduct(Pageable pageable);
+
+    List<ProductResponse> getAll();
 }

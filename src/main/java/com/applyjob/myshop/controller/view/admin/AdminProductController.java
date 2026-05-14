@@ -1,7 +1,6 @@
 package com.applyjob.myshop.controller.view.admin;
 
 import com.applyjob.myshop.dto.request.ProductRequest;
-import com.applyjob.myshop.entity.Product;
 import com.applyjob.myshop.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +27,7 @@ public class AdminProductController {
 
         model.addAttribute(
                 "page",
-                productService.getAll(pageable)
+                productService.getPageProduct(pageable)
         );
 
         return "admin/products/list";

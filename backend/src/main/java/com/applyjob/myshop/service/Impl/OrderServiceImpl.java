@@ -2,10 +2,12 @@ package com.applyjob.myshop.service.Impl;
 
 import com.applyjob.myshop.dto.request.OrderItemRequest;
 import com.applyjob.myshop.dto.request.OrderRequest;
+import com.applyjob.myshop.dto.response.OrderDetailResponse;
 import com.applyjob.myshop.dto.response.OrderResponse;
 import com.applyjob.myshop.entity.Order;
 import com.applyjob.myshop.entity.OrderItem;
 import com.applyjob.myshop.entity.Product;
+import com.applyjob.myshop.exception.BadRequestException;
 import com.applyjob.myshop.exception.ResourceNotFoundException;
 import com.applyjob.myshop.mapper.OrderMapper;
 import com.applyjob.myshop.repository.OrderRepository;
@@ -13,7 +15,8 @@ import com.applyjob.myshop.repository.ProductRepository;
 import com.applyjob.myshop.service.OrderService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.BadRequestException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -35,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public OrderResponse createOrder(
             OrderRequest request
-    ) throws BadRequestException {
+    ){
 
         Order order = orderMapper.toEntity(request);
 
@@ -58,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
                     )
                     .orElseThrow(() ->
                             new ResourceNotFoundException(
-                                    "Product not found"
+                                    "Không tìm thấy sản phẩm"
                             )
                     );
 
@@ -66,7 +69,13 @@ public class OrderServiceImpl implements OrderService {
                     < itemRequest.quantity()) {
 
                 throw new BadRequestException(
-                        product.getName() + " out of stock"
+                        product.getName() + " không đủ số lượng hàng "
+                );
+            }
+
+            if (product.getQuantity() <= 0 ){
+                throw new BadRequestException(
+                  product.getName() + " đã hết hàng "
                 );
             }
 
@@ -100,4 +109,25 @@ public class OrderServiceImpl implements OrderService {
                 orderRepository.save(order)
         );
     }
+
+    @Override
+    public Page<OrderResponse> getOrders(Pageable pageable) {
+        return orderRepository
+                .findAll(pageable)
+                .map(orderMapper::toResponse);
+    }
+
+    @Override
+    public OrderDetailResponse getOrderDetail(String id) {
+        Order order = orderRepository
+                .findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Không tìm thấy đơn hàng"
+                        )
+                );
+
+        return orderMapper.toDetailResponse(order);
+    }
+
 }

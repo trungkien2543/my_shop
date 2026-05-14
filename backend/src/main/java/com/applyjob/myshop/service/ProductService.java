@@ -3,7 +3,6 @@ package com.applyjob.myshop.service;
 import com.applyjob.myshop.dto.request.ProductRequest;
 import com.applyjob.myshop.dto.response.ProductDetailResponse;
 import com.applyjob.myshop.dto.response.ProductResponse;
-import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,7 +12,7 @@ public interface ProductService {
 
     ProductResponse update(String id, ProductRequest request);
 
-    ProductResponse delete(String id) throws BadRequestException;
+    ProductResponse delete(String id);
 
     ProductDetailResponse getById(String id);
 

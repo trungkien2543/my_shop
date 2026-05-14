@@ -4,15 +4,16 @@ import com.applyjob.myshop.dto.request.ProductRequest;
 import com.applyjob.myshop.dto.response.ProductDetailResponse;
 import com.applyjob.myshop.dto.response.ProductResponse;
 import com.applyjob.myshop.entity.Product;
+import com.applyjob.myshop.exception.BadRequestException;
 import com.applyjob.myshop.exception.ResourceNotFoundException;
 import com.applyjob.myshop.mapper.ProductMapper;
 import com.applyjob.myshop.repository.ProductRepository;
 import com.applyjob.myshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
+    @Transactional
     public ProductResponse create(ProductRequest request) {
 
         Product newProduct = productMapper.toEntity(request);
@@ -32,11 +34,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public ProductResponse update(String id, ProductRequest request) {
         // Chỉ tìm những sản phẩm có trạng thái là true
         Product product = productRepository
                 .findByIdAndActiveTrue(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Khong tim thay san pham")
+                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy sản phẩm")
         );
 
         productMapper.updateProduct(product, request);
@@ -45,19 +48,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponse delete(String id) throws BadRequestException {
+    @Transactional
+    public ProductResponse delete(String id) {
         // Chỉ tìm những sản phẩm có trạng thái là true
         Product product = productRepository
                 .findByIdAndActiveTrue(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Khong tim thay san pham"
+                                "Không tìm thấy sản phẩm"
                         )
                 );
 
         if (product.getQuantity() > 0) {
             throw new BadRequestException(
-                    "Khong xoa san pham co so luong lon hon 0"
+                    "Không xóa sản phẩm có số lượng lớn hơn 0"
             );
         }
 
@@ -73,7 +77,7 @@ public class ProductServiceImpl implements ProductService {
                 .findByIdAndActiveTrue(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException(
-                                "Khong tim thay san pham"
+                                "Không tìm thấy sản phẩm"
                         )
                 );
 

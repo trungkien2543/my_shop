@@ -1,0 +1,64 @@
+body {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    flex: 1;
+}
+
+.table td,
+.table th {
+    vertical-align: middle;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.card {
+    border-radius: 12px;
+}
+
+.btn {
+    border-radius: 8px;
+}
+
+footer {
+    margin-top: auto;
+}
+.footer-custom {
+    background-color: #212529; /* giống bootstrap dark */
+    border-top: 1px solid #343a40;
+}
+
+.footer-custom p {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.footer-custom small {
+    font-size: 12px;
+    color: #adb5bd;
+}
+.table-wrapper {
+    min-height: 600px;
+}
+
+.table td,
+.table th {
+    height: 55px;
+}
+.sort-buttons a {
+    text-decoration: none;
+    color: white;
+    font-size: 10px;
+    line-height: 10px;
+}
+
+.sort-buttons a:hover {
+    color: #ffc107;
+}

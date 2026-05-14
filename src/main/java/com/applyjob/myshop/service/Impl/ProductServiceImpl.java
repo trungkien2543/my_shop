@@ -12,8 +12,10 @@ import com.applyjob.myshop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.PageRequest;
 
 @Service
 @RequiredArgsConstructor
@@ -87,7 +89,20 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<ProductResponse> getAll(Pageable pageable) {
         // Chỉ tìm những sản phẩm có trạng thái là true
-        return productRepository.findByActiveTrue(pageable)
-                .map(productMapper::toResponse);
+        Pageable finalPageable = pageable;
+
+        if (pageable.getSort().isUnsorted()) {
+
+            finalPageable = PageRequest.of(
+                    pageable.getPageNumber(),
+                    pageable.getPageSize(),
+                    Sort.by(
+                            Sort.Direction.DESC,
+                            "updatedAt"
+                    )
+            );
+        }
+
+        return productRepository.findByActiveTrue(finalPageable).map(productMapper::toResponse);
     }
 }

@@ -16,7 +16,9 @@ import com.applyjob.myshop.service.OrderService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -112,8 +114,23 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Page<OrderResponse> getOrders(Pageable pageable) {
+
+        Pageable finalPageable = pageable;
+
+        if (pageable.getSort().isUnsorted()) {
+
+            finalPageable = PageRequest.of(
+                    pageable.getPageNumber(),
+                    pageable.getPageSize(),
+                    Sort.by(
+                            Sort.Direction.DESC,
+                            "createAt"
+                    )
+            );
+        }
+
         return orderRepository
-                .findAll(pageable)
+                .findAll(finalPageable)
                 .map(orderMapper::toResponse);
     }
 

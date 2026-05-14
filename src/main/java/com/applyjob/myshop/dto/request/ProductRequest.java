@@ -3,8 +3,10 @@ package com.applyjob.myshop.dto.request;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+
 
 public record ProductRequest(
 
@@ -20,4 +22,7 @@ public record ProductRequest(
         String description
 
 ) {
+
+        public ProductRequest {
+        }
 }

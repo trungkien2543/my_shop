@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestControllerAdvice
+@RestControllerAdvice(
+        basePackages = "com.applyjob.myshop.controller.api"
+)
 public class GlobalHandlerException {
 
     @ExceptionHandler(ResourceNotFoundException.class)

@@ -44,10 +44,25 @@
 
     </div>
 
+    <div
+            th:if="${success}"
+            class="alert alert-success"
+            th:text="${success}"
+    >
+    </div>
+
+    <div
+            th:if="${error}"
+            class="alert alert-danger"
+            th:text="${error}"
+    >
+    </div>
+
     <!-- FORM -->
     <form
             method="post"
-            th:action="@{/orders/create}"
+            th:action="@{/user/orders/create}"
+            th:object="${order}"
     >
 
         <!-- CUSTOMER INFO -->
@@ -69,7 +84,7 @@
 
                         <input
                                 type="text"
-                                name="customerName"
+                                th:field="*{customerName}"
                                 class="form-control"
                                 required
                         >
@@ -84,8 +99,9 @@
 
                         <input
                                 type="text"
-                                name="customerPhone"
+                                th:field="*{customerPhone}"
                                 class="form-control"
+                                maxlength="10"
                                 required
                         >
 
@@ -99,7 +115,7 @@
 
                         <input
                                 type="text"
-                                name="customerAddress"
+                                th:field="*{customerAddress}"
                                 class="form-control"
                                 required
                         >
@@ -172,14 +188,18 @@
 
                         <tbody id="productTableBody">
 
-                        <tr id="emptyRow">
+                                        <!-- EMPTY -->
+                                        <tr
+                                                id="emptyRow"
+                                                th:if="${#lists.isEmpty(order.items)}"
+                                        >
 
-                            <td
-                                    colspan="5"
-                                    class="text-center text-muted"
-                            >
-                                No products selected
-                            </td>
+                                            <td
+                                                    colspan="5"
+                                                    class="text-center text-muted"
+                                            >
+                                                No products selected
+                                            </td>
 
                         </tr>
 

@@ -75,12 +75,6 @@ public class OrderServiceImpl implements OrderService {
                 );
             }
 
-            if (product.getQuantity() <= 0 ){
-                throw new BadRequestException(
-                  product.getName() + " đã hết hàng "
-                );
-            }
-
             product.setQuantity(
                     product.getQuantity()
                             - itemRequest.quantity()

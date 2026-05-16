@@ -1,6 +1,7 @@
 package com.applyjob.myshop.controller.view.admin;
 
 import com.applyjob.myshop.dto.request.ProductRequest;
+import com.applyjob.myshop.exception.BadRequestException;
 import com.applyjob.myshop.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 
@@ -73,8 +75,29 @@ public class AdminProductController {
     }
 
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable String id) {
-        productService.delete(id);
+    public String deleteProduct(
+            @PathVariable String id,
+            RedirectAttributes redirectAttributes
+    ) {
+
+        try {
+
+            productService.delete(id);
+
+            redirectAttributes.addFlashAttribute(
+                    "success",
+                    "Xóa sản phẩm thành công"
+            );
+
+        } catch (BadRequestException e) {
+
+            redirectAttributes.addFlashAttribute(
+                    "error",
+                    e.getMessage()
+            );
+
+        }
+
         return "redirect:/admin/products";
     }
 

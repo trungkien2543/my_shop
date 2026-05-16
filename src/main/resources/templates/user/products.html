@@ -21,9 +21,7 @@
     >
 
 </head>
-<script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
-</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <body>
 
@@ -178,6 +176,10 @@
                                 Quantity
                             </th>
 
+                            <th class="text-end">
+                                Subtotal
+                            </th>
+
                             <th style="width: 120px;">
                                 Action
                             </th>
@@ -195,7 +197,7 @@
                                         >
 
                                             <td
-                                                    colspan="5"
+                                                    colspan="6"
                                                     class="text-center text-muted"
                                             >
                                                 No products selected
@@ -206,6 +208,20 @@
                         </tbody>
 
                     </table>
+
+                    <div class="d-flex justify-content-end mt-3">
+
+                        <h5>
+
+                            Total:
+
+                            <span id="grandTotal">
+                                0 VNĐ
+                            </span>
+
+                        </h5>
+
+                    </div>
 
                 </div>
 
@@ -280,7 +296,10 @@
 
                     <button
                             type="button"
-                            class="list-group-item list-group-item-action"
+
+                            th:class="${p.quantity == 0}
+                                        ? 'list-group-item list-group-item-action disabled opacity-50'
+                                        : 'list-group-item list-group-item-action'"
 
                             th:each="p : ${products}"
 
@@ -288,6 +307,8 @@
                             th:data-name="${p.name}"
                             th:data-price="${p.price}"
                             th:data-stock="${p.quantity}"
+
+                            th:disabled="${p.quantity == 0}"
 
                             onclick="addProductFromButton(this)"
                     >
@@ -301,8 +322,14 @@
                                 </strong>
 
                                 <div
-                                        class="small text-muted"
-                                        th:text="'Stock: ' + ${p.quantity}">
+                                        class="small"
+                                        th:classappend="${p.quantity == 0}
+                                        ? 'text-danger'
+                                        : 'text-muted'"
+
+                                        th:text="${p.quantity == 0}
+                                        ? 'Hết hàng'
+                                        : 'Stock: ' + ${p.quantity} ">
                                 </div>
 
                             </div>
@@ -335,6 +362,9 @@
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 <!-- SCRIPT -->
+<!-- SCRIPT -->
+
+
 <script>
 
     let index = 0;
@@ -416,7 +446,7 @@
 
             </td>
 
-            <td class="text-end">
+            <td class="text-end unit-price">
 
                 ${Number(price)
                     .toLocaleString()} VNĐ
@@ -434,12 +464,19 @@
                 <input
                     type="number"
                     name="items[${index}].quantity"
-                    class="form-control"
+                    class="form-control quantity-input"
                     min="1"
                     max="${stock}"
                     value="1"
                     required
                 >
+
+            </td>
+
+            <td class="text-end subtotal">
+
+                ${Number(price)
+                    .toLocaleString()} VNĐ
 
             </td>
 
@@ -458,6 +495,10 @@
 
         tbody.appendChild(row);
 
+        // UPDATE TOTAL WHEN QUANTITY CHANGES
+        row.querySelector(".quantity-input")
+            .addEventListener("input", updateTotals);
+
         index++;
 
         // CLOSE MODAL
@@ -468,6 +509,8 @@
                 )
             )
             .hide();
+
+        updateTotals();
     }
 
     // REMOVE PRODUCT
@@ -486,7 +529,7 @@
                 <tr id="emptyRow">
 
                     <td
-                        colspan="5"
+                        colspan="6"
                         class="text-center text-muted"
                     >
                         No products selected
@@ -495,7 +538,78 @@
                 </tr>
             `;
         }
+
+        updateTotals();
     }
+
+    // UPDATE TOTALS
+    function updateTotals() {
+
+        let grandTotal = 0;
+
+        const rows =
+            document.querySelectorAll(
+                "#productTableBody tr"
+            );
+
+        rows.forEach(row => {
+
+            const quantityInput =
+                row.querySelector(".quantity-input");
+
+            if (!quantityInput) return;
+
+            const quantity =
+                Number(quantityInput.value);
+
+            const unitPrice =
+                Number(
+                    row.querySelector(".unit-price")
+                        .innerText
+                        .replaceAll(",", "")
+                        .replace(" VNĐ", "")
+                );
+
+            const subtotal =
+                quantity * unitPrice;
+
+            row.querySelector(".subtotal")
+                .innerText =
+                    subtotal.toLocaleString()
+                    + " VNĐ";
+
+            grandTotal += subtotal;
+        });
+
+        document.getElementById(
+            "grandTotal"
+        ).innerText =
+            grandTotal.toLocaleString()
+            + " VNĐ";
+    }
+
+    // AUTO HIDE ALERT
+    setTimeout(() => {
+
+        const alerts =
+            document.querySelectorAll(".alert");
+
+        alerts.forEach(alert => {
+
+            alert.style.transition =
+                "opacity 0.5s";
+
+            alert.style.opacity = "0";
+
+            setTimeout(() => {
+
+                alert.remove();
+
+            }, 500);
+
+        });
+
+    }, 3000);
 
 </script>
 

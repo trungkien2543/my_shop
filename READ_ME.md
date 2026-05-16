@@ -1,34 +1,46 @@
 # MyShop
 
-MyShop is a simple e-commerce management system built with Spring Boot and Thymeleaf.
+MyShop là một hệ thống quản lý bán hàng (e-commerce management system) đơn giản được xây dựng bằng Spring Boot và Thymeleaf.
 
-## Features
+## Chức năng
 
-### Admin
+### Người dùng (User)
 
-* Manage products
+Ở giao diện mặc định, hệ thống sẽ hoạt động với vai trò người dùng thông thường. Người dùng có thể:
 
-  * View product list
-  * Create product
-  * Update product
-  * Delete product
-  * View product detail
-* Manage orders
-
-  * View order list
-  * View order detail
-* Product sorting and pagination
-* Authentication and authorization with Spring Security
-
-### User
-
-* Browse products
-* Search and select products
-* Create orders
+* Xem danh sách sản phẩm
+* Tìm kiếm và lựa chọn sản phẩm
+* Tạo đơn hàng
 
 ---
 
-# Technologies
+### Quản trị viên (Admin)
+
+Để sử dụng các chức năng quản trị, cần đăng nhập bằng tài khoản admin.
+
+Chức năng quản trị bao gồm:
+
+#### Quản lý sản phẩm
+
+* Xem danh sách sản phẩm
+* Thêm sản phẩm
+* Cập nhật sản phẩm
+* Xóa sản phẩm
+* Xem chi tiết sản phẩm
+
+#### Quản lý đơn hàng
+
+* Xem danh sách đơn hàng
+* Xem chi tiết đơn hàng
+
+#### Khác
+
+* Phân trang và sắp xếp sản phẩm
+* Xác thực và phân quyền bằng Spring Security
+
+---
+
+# Công nghệ sử dụng
 
 * Java 21
 * Spring Boot
@@ -43,80 +55,80 @@ MyShop is a simple e-commerce management system built with Spring Boot and Thyme
 
 ---
 
-# Run Project
+# Chạy dự án
 
-## Start database
+## Khởi động database
 
-```bash id="fpy5j3"
+```bash
 docker compose up -d
 ```
 
-## Run application
+## Chạy ứng dụng
 
-```bash id="9v38e7"
+```bash
 ./mvnw spring-boot:run
 ```
 
-or run directly from IntelliJ IDEA.
+Hoặc chạy trực tiếp bằng IntelliJ IDEA.
 
 ---
 
-# Admin Account
+# Tài khoản Admin
 
-```text id="k9v4oq"
+```text
 username: admin
 password: 123456
 ```
 
 ---
 
-# Main URLs
+# Các đường dẫn chính
 
-## User Shop
+## Trang người dùng
 
-```text id="8z45ml"
+```text
 http://localhost:8080/user/products
 ```
 
-## Admin Products
+## Trang quản lý sản phẩm (Admin)
 
-```text id="3n86b2"
+```text
 http://localhost:8080/admin/products
 ```
 
-## Admin Orders
+## Trang quản lý đơn hàng (Admin)
 
-```text id="g3svl1"
+```text
 http://localhost:8080/admin/orders
 ```
 
-## Login
+## Đăng nhập
 
-```text id="c6i3em"
+```text
 http://localhost:8080/login
 ```
 
 ---
 
-# Security
+# Bảo mật
 
-* Session-based authentication using Spring Security
-* Role-based authorization
-* Only ADMIN can access `/admin/**`
+* Xác thực theo session bằng Spring Security
+* Phân quyền theo role
+* Chỉ tài khoản ADMIN mới có thể truy cập `/admin/**`
 
 ---
 
-# Future Improvements
+# Hướng phát triển trong tương lai
 
-* Product image upload
-* Shopping cart
-* Order status management
+* Upload hình ảnh sản phẩm
+* Giỏ hàng
+* Quản lý trạng thái đơn hàng
 * REST API + React frontend
-* JWT authentication
-* Deploy with Docker
+* JWT Authentication
+* Deploy bằng Docker
 
 ---
 
-# Author
+# Tác giả
 
-Developed for technical assessment project.
+Dự án được phát triển cho bài đánh giá kỹ thuật (technical assessment project).
